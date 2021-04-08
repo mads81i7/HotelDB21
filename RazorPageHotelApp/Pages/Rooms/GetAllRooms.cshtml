@@ -1,0 +1,108 @@
+﻿@page
+@model RazorPageHotelApp.Pages.Rooms.GetAllRoomsModel
+@{
+}
+
+
+<h4> List of Rooms in @Model.Hotel.Navn</h4>
+<div>
+    <a style="margin-bottom: 2%; margin-top: 2%" class="button btn btn-success" asp-page="/Rooms/CreateRoom" asp-route-hNr="@Model.Hotel.HotelNr">Create new room</a>
+    <a style="margin-bottom: 2%; margin-top: 2%" class="button btn btn-dark" asp-page="/Hotels/GetAllHotels" asp-route-hNr="@Model.Hotel.HotelNr">Return to all Hotels</a>
+    <form method="post">
+        <input type="hidden" asp-for="@Model.Hotel.HotelNr" class="form-control" />
+        <div class="form-group">
+            <p>
+                <span>
+                    <label style="float: left; margin-right: 1%">Type Filter</label>
+                    <select style="width: 9%; display: block; float: left" id="FilterType" name="FilterType" asp-for="FilterType" class="form-control">
+                        <option>All</option>
+                        @for (int i = 0; i < Model.RoomTypes.Length; i++)
+                        {
+                            <option value="@Model.RoomTypes[i]">@Model.TypeNames[i]</option>
+                        }
+                    </select>
+                </span>
+                
+                <span>
+                    <label style="float: left; margin-left: 1%">Sort By</label>
+                    <select style="width: 11%; display: block; float: left; margin-left: 1%; margin-right: 1%;" id="OrderMethod" name="OrderMethod" asp-for="OrderMethod" class="form-control">
+                        <option>Room_No</option>
+                        <option>Types</option>
+                        <option>Price</option>
+                    </select>
+                </span>
+
+                <input type="radio" asp-for="OrderDirection" value=" DESC" /> DESC
+                <input type="radio" asp-for="OrderDirection" value=" ASC" /> ASC
+                <span>
+                    <input style="margin-left: 8px" type="submit" class="button btn btn-dark" value="Filter" asp-page-handler="Filter" asp-route-hNr="@Model.Hotel.HotelNr" />
+                </span>
+
+            </p>
+
+
+        </div>
+    </form>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Room No
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Price
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Rooms.Count != 0)
+        {
+            @foreach (var item in Model.Rooms)
+            {
+                <tr>
+                    <td>
+                        @item.RoomNr
+                    </td>
+                    <td>
+                        @if (@item.Types == 'D')
+                        {
+                            <p>Double</p>
+                        }
+                        else if (item.Types == 'S')
+                        {
+                            <p>Single</p>
+                        }
+                        else
+                        {
+                            <p>Family</p>
+                        }
+                    </td>
+                    <td>
+                        @($"{item.Pris:C}")
+                    </td>
+                    <td>
+                        <p>
+                            <a class="button btn btn-primary" asp-page="EditRoom" asp-route-hNr="@item.HotelNr" asp-route-rNr="@item.RoomNr">Edit Room</a>
+                            <a class="button btn btn-danger" asp-page="DeleteRoom" asp-route-hNr="@item.HotelNr" asp-route-rNr="@item.RoomNr">Delete</a>
+                        </p>
+                    </td>
+
+                </tr>
+            }
+        }
+</table>
+<form method="post">
+    <input asp-page-handler="DeleteAll" type="submit" value="Delete All Rooms" class="button btn btn-danger" asp-route-hNr="@Model.Hotel.HotelNr" />
+    @if (Model.Confirm)
+    {
+        <h5>Are you sure that you want to delete all rooms</h5>
+        <input asp-page-handler="Confirm" type="submit" value="Confirm" class="button btn btn-danger" asp-route-hNr="@Model.Hotel.HotelNr" />
+        <a class="button btn btn-dark" asp-page="GetAllRooms" asp-route-hNr="@Model.Hotel.HotelNr">Deny</a>
+    }
+</form>

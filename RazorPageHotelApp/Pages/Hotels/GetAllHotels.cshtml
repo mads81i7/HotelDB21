@@ -1,0 +1,77 @@
+﻿@page
+@model RazorPageHotelApp.Pages.Hotels.GetAllHotelsModel
+@{
+    ViewData["Title"] = "GetAllHotels";
+}
+
+
+<p>
+    <a class="button btn btn-success" asp-page="/Hotels/CreateHotel">Create New Hotel</a>
+</p>
+
+
+<form>
+    <p>
+        Search: <input type="text" asp-for="FilterCriteria" />
+        <input type="submit" class="button btn btn-dark" value="Filter" />
+    </p>
+</form>
+
+<h4> List of hotels</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Hotel No
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Address
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Hotels.Count() != 0)
+        {
+            @foreach (var item in Model.Hotels)
+            {
+                <tr>
+                    <td>
+                        @item.HotelNr
+                    </td>
+                    <td>
+                        @item.Navn
+                    </td>
+                    <td>
+                        @item.Adresse
+                    </td>
+                    <td>
+                        <p>
+                            <a class="button btn btn-dark" asp-page="/Rooms/GetAllRooms" asp-route-hNr="@item.HotelNr">Rooms in hotel</a>
+                            @*<a class="button btn btn-success" asp-page="/Rooms/CreateRoom" asp-route-hNr="@item.HotelNr">Create new room</a>*@
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <a class="button btn btn-primary" asp-page="/Hotels/EditHotel" asp-route-hNr="@item.HotelNr">Edit Hotel</a>
+                            <a class="button btn btn-danger" asp-page="/Hotels/DeleteHotel" asp-route-hNr="@item.HotelNr">Delete</a>
+                        </p>
+                    </td>
+                    @*<td>
+                        <p>
+                            <a class="button btn btn-success" asp-page="/Rooms/CreateRoom" asp-route-hNr="@item.HotelNr">Create new room</a>
+                        </p>
+                    </td>*@
+                    @*<td>
+                        <p>
+                            <a class="button btn btn-danger"asp-page="/Hotels/DeleteHotel" asp-route-hNr="@item.HotelNr">Delete</a>
+                        </p>
+                    </td>*@
+                </tr>
+            }
+        }
+</table>

@@ -1,0 +1,35 @@
+﻿@page
+@model RazorPageHotelApp.Pages.Rooms.CreateRoomModel
+@{
+} 
+<h4>Create Room</h4>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.NewRoom.HotelNr" class="control-label">Hotel number</label>
+        <input asp-for="@Model.NewRoom.HotelNr" readonly="readonly" class="form-control" />
+        <span asp-validation-for="@Model.NewRoom.HotelNr" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="@Model.NewRoom.RoomNr" class="form-control" />
+        <span asp-validation-for="@Model.NewRoom.RoomNr" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewRoom.Pris" class="control-label">Price</label>
+        <input type="number" asp-for="@Model.NewRoom.Pris" class="form-control" />
+        <span asp-validation-for="@Model.NewRoom.Pris" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        @for (int i = 0; i < Model.RoomTypes.Length; i++)
+        {
+            <input type="radio" asp-for="@Model.NewRoom.Types" value="@Model.RoomTypes[i]" />@Model.TypeNames[i]<br />
+        }
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="button btn btn-dark" asp-route-hNr="@Model.NewRoom.HotelNr" />
+    </div>
+</form>
+@if (Model.done)
+{
+    <h4 style="color:green">The Room has been created</h4>
+    <a class="button btn btn-dark" asp-page="GetAllRooms" asp-route-hNr="@Model.NewRoom.HotelNr">Return to all Rooms in Hotel</a>
+}

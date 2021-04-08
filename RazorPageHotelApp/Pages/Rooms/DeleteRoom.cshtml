@@ -1,0 +1,32 @@
+﻿@page
+@using RazorPageHotelApp.Services
+@model RazorPageHotelApp.Pages.Rooms.DeleteRoomModel
+@{
+}
+<h4>Delete Room nNumber @Model.Room.RoomNr</h4>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Room.HotelNr" class="control-label">Hotel number</label>
+        <input asp-for="@Model.Room.HotelNr" readonly="readonly" class="form-control" />
+        <span asp-validation-for="@Model.Room.HotelNr" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="hidden" asp-for="@Model.Room.RoomNr" class="form-control" />
+        <span asp-validation-for="@Model.Room.RoomNr" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Room.Pris" class="control-label">Price</label>
+        <input type="number" asp-for="@Model.Room.Pris" readonly="readonly" class="form-control" />
+        <span asp-validation-for="@Model.Room.Pris" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Room.Types" class="control-label">Room Type</label>
+            <input asp-for="@Model.Room.Types" readonly="readonly" class="form-control" />
+            <span asp-validation-for="@Model.Room.Types" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <input asp-page-handler="Confirm" type="submit" value="Delete" class="button btn btn-danger" asp-route-hNr="@Model.Room.HotelNr" asp-route-rNr="@Model.Room.RoomNr" />
+        <a class="button btn btn-dark" asp-page="GetAllRooms" asp-route-hNr="@Model.Room.HotelNr">Return to all rooms in hotel</a>
+    </div>
+</form>
